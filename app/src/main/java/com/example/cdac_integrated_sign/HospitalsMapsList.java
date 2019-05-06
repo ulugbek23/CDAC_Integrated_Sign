@@ -18,8 +18,7 @@ import java.util.Map;
 public class HospitalsMapsList {
     Context context;
     String URL="https://cdacnoida.000webhostapp.com/doctor_care/hospitalsmap.php";
-    LatLng myLocation = new LatLng(41.5345,60.6249);
-    String responseHospitals;
+    LatLng myLocation = new LatLng(0,0);
 
     public HospitalsMapsList(Context context, LatLng myLocation) {
         this.context = context;
@@ -27,19 +26,15 @@ public class HospitalsMapsList {
         //getData();
     }
 
-    public interface VolleyCallback{
-        void onSuccess(String result);
-    }
-
-    public void getData(final VolleyCallback callback) {
+    public void getData() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if(response.equals("0")){//if nothing come
                     Toast.makeText(context, "Empty list", Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(context, "come on"+response, Toast.LENGTH_LONG).show();
-                    callback.onSuccess(response);
+                    //Toast.makeText(context, "come on"+response, Toast.LENGTH_LONG).show();
+                    WelcomeActivity.response = response;
 
                     //responseHospitals = response;
                     /*try {
@@ -76,12 +71,6 @@ public class HospitalsMapsList {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(stringRequest);
-    }
-
-    public LatLng getMyLocation(){
-        //here get last known location and return as LatLng
-        LatLng latLng = new LatLng(28.6139, 77.2090);
-        return latLng;
     }
 
 }

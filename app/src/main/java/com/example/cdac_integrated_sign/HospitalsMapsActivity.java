@@ -40,7 +40,6 @@ public class HospitalsMapsActivity extends FragmentActivity implements OnMapRead
     private GoogleMap mMap;
     String response;
     LatLng myLocation;
-    LatLng myPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,41 +59,6 @@ public class HospitalsMapsActivity extends FragmentActivity implements OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        // Getting LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        // Creating a criteria object to retrieve provider
-        Criteria criteria = new Criteria();
-
-        // Getting the name of the best provider
-        String provider = locationManager.getBestProvider(criteria, true);
-
-        // Getting Current Location
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = locationManager.getLastKnownLocation(provider);
-
-        if (location != null) {
-            // Getting latitude of the current location
-            double latitude = location.getLatitude();
-
-            // Getting longitude of the current location
-            double longitude = location.getLongitude();
-
-            // Creating a LatLng object for the current location
-            LatLng latLng = new LatLng(latitude, longitude);
-
-            myPosition = new LatLng(latitude, longitude);
-        }
     }
 
     /**
@@ -110,6 +74,7 @@ public class HospitalsMapsActivity extends FragmentActivity implements OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Marker marker = null;
+        if(response!=null)
         try {
             JSONArray jsonArray = new JSONArray(response); // set global variable
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -135,7 +100,7 @@ public class HospitalsMapsActivity extends FragmentActivity implements OnMapRead
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        if(myPosition!=null) mMap.addMarker(new MarkerOptions().position(myPosition).title("My position"));
+        if(myLocation!=null) mMap.addMarker(new MarkerOptions().position(myLocation).title("My position"));
         mMap.setMyLocationEnabled(true);
     }
 }

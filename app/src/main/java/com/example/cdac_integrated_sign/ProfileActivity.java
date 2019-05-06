@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         mGoogleSignInClient.signOut().addOnCompleteListener(ProfileActivity.this, new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(getApplicationContext(), "successfully signout",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Successfully sign out",Toast.LENGTH_LONG).show();
                 startActivity(new Intent(ProfileActivity.this, MainActivity.class));
                 finish();
             }
